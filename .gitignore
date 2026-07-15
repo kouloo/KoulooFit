@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.vercel/
+.env
+.env.*
+*.log
+
+exercises-dataset-main/
+exercises-dataset-main.zip
+translation-cache.fr.json
+translation-work/
