@@ -1,0 +1,7 @@
+dist/
+node_modules/
+exercises-dataset-main/
+exercises-dataset-main.zip
+translation-cache.fr.json
+translation-work/
+public/videos/

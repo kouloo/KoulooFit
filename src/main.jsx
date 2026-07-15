@@ -766,7 +766,7 @@ function ExerciseModal({ exercise, translations, onClose }) {
         </div>
 
         <div className="modal-media">
-          <img className="modal-gif" src={assetPath(exercise.gif_url)} alt={exercise.name} />
+          <img className="modal-gif" src={assetPath(exercise.image)} alt={exercise.name} />
         </div>
 
         <div className="modal-meta">
