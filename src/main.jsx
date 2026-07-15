@@ -166,6 +166,9 @@ const BODY_ZONES = [
 ];
 
 const BODY_ZONE_BY_ID = Object.fromEntries(BODY_ZONES.map((zone) => [zone.id, zone]));
+const GITHUB_MEDIA_BASE = "https://raw.githubusercontent.com/kouloo/KoulooFit/main/public/";
+const REMOTE_GIF_EXCLUDED_BODY_PARTS = new Set(["neck", "lower legs", "cardio"]);
+const REMOTE_GIF_EXCLUDED_TARGETS = new Set(["calves", "cardiovascular system"]);
 
 function normalizeKey(value) {
   return String(value || "").toLowerCase().replaceAll("_", " ").trim();
@@ -185,6 +188,22 @@ function uniqueSorted(items, selector) {
 function assetPath(path) {
   if (!path) return "";
   return path.startsWith("/") ? path : `/${path}`;
+}
+
+function isRemoteGifExcluded(exercise) {
+  return (
+    REMOTE_GIF_EXCLUDED_BODY_PARTS.has(normalizeKey(exercise.body_part)) ||
+    REMOTE_GIF_EXCLUDED_BODY_PARTS.has(normalizeKey(exercise.category)) ||
+    REMOTE_GIF_EXCLUDED_TARGETS.has(normalizeKey(exercise.target))
+  );
+}
+
+function exerciseModalMediaSrc(exercise) {
+  if (!exercise?.gif_url || isRemoteGifExcluded(exercise)) {
+    return assetPath(exercise?.image);
+  }
+
+  return `${GITHUB_MEDIA_BASE}${exercise.gif_url}`;
 }
 
 function getFrenchSteps(exercise, translations) {
@@ -766,7 +785,15 @@ function ExerciseModal({ exercise, translations, onClose }) {
         </div>
 
         <div className="modal-media">
-          <img className="modal-gif" src={assetPath(exercise.image)} alt={exercise.name} />
+          <img
+            className="modal-gif"
+            src={exerciseModalMediaSrc(exercise)}
+            alt={exercise.name}
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = assetPath(exercise.image);
+            }}
+          />
         </div>
 
         <div className="modal-meta">
