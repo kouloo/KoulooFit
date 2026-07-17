@@ -166,7 +166,6 @@ const BODY_ZONES = [
 ];
 
 const BODY_ZONE_BY_ID = Object.fromEntries(BODY_ZONES.map((zone) => [zone.id, zone]));
-const GITHUB_MEDIA_BASE = "https://raw.githubusercontent.com/kouloo/KoulooFit/main/public/";
 const REMOTE_GIF_EXCLUDED_BODY_PARTS = new Set(["neck", "lower legs", "cardio"]);
 const REMOTE_GIF_EXCLUDED_TARGETS = new Set(["calves", "cardiovascular system"]);
 
@@ -203,7 +202,7 @@ function exerciseModalMediaSrc(exercise) {
     return assetPath(exercise?.image);
   }
 
-  return `${GITHUB_MEDIA_BASE}${exercise.gif_url}`;
+  return assetPath(exercise.gif_url);
 }
 
 function getFrenchSteps(exercise, translations) {
